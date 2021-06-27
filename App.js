@@ -1,11 +1,11 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import TfLite from 'tflite-react-native';
-
-
+import FlowerImage from './src/components/FlowerImage';
 
 let tfLite = new TfLite();
 var modelFile = 'models/model.tflite';
@@ -18,11 +18,11 @@ export default class App extends Component {
       recognitions: null,
       source: null,
       filePath: {
-        data:'',
-        uri:''
+        data: '',
+        uri: '',
       },
-          fileData:'' ,
-          fileUri: ''
+      fileData: '',
+      fileUri: '',
     };
     tfLite.loadModel({model: modelFile, labels: labelsFile}, (err, res) => {
       if (err) {
@@ -36,12 +36,11 @@ export default class App extends Component {
   selectGalleryImage() {
     console.log('ok');
     const options = {
-      storageOptions:{
-        skipBackup:false,
-        path:'images'
-      }
+      storageOptions: {
+        skipBackup: false,
+        path: 'images',
+      },
     };
-
 
     ImagePicker.launchImageLibrary(options, response => {
       if (response.didCancel) {
@@ -51,12 +50,11 @@ export default class App extends Component {
       } else if (response.error) {
         console.log('Image Picker Error');
       } else {
-       
         this.setState({
           source: response.path,
           filePath: response,
           fileData: response.data,
-          fileUri: response.uri
+          fileUri: response.uri,
         });
 
         tfLite.runModelOnImage(
@@ -71,9 +69,15 @@ export default class App extends Component {
             if (err) {
               console.log(err);
             } else {
-              console.log({confidence:res[0].confidence*100,name:res[0].label});
+              console.log({
+                confidence: res[0].confidence * 100,
+                name: res[0].label,
+              });
               this.setState({
-                recognitions: {confidence:(res[0].confidence*100).toFixed(0),name:res[0].label},
+                recognitions: {
+                  confidence: (res[0].confidence * 100).toFixed(0),
+                  name: res[0].label,
+                },
               });
             }
           },
@@ -82,15 +86,14 @@ export default class App extends Component {
     });
   }
 
-  tatePhoto() {
+  takePhoto() {
     console.log('ok');
     const options = {
-      storageOptions:{
-        skipBackup:false,
-        path:'images'
-      }
+      storageOptions: {
+        skipBackup: false,
+        path: 'images',
+      },
     };
-
 
     ImagePicker.launchCamera(options, response => {
       if (response.didCancel) {
@@ -100,13 +103,12 @@ export default class App extends Component {
       } else if (response.error) {
         console.log('Image Picker Error');
       } else {
-       
-        const sre = { uri: response.uri };
+        const sre = {uri: response.uri};
         this.setState({
           source: response.path,
           filePath: response,
           fileData: response.data,
-          fileUri: response.uri
+          fileUri: response.uri,
         });
 
         tfLite.runModelOnImage(
@@ -121,9 +123,15 @@ export default class App extends Component {
             if (err) {
               console.log(err);
             } else {
-              console.log({confidence:res[0].confidence*100,name:res[0].label});
+              console.log({
+                confidence: res[0].confidence * 100,
+                name: res[0].label,
+              });
               this.setState({
-                recognitions: {confidence:(res[0].confidence*100).toFixed(0),name:res[0].label},
+                recognitions: {
+                  confidence: (res[0].confidence * 100).toFixed(0),
+                  name: res[0].label,
+                },
               });
             }
           },
@@ -132,11 +140,16 @@ export default class App extends Component {
     });
   }
 
-
+  getName = () => {
+    const {recognitions} = this.state;
+    return recognitions.name
+      .replace('___', ',')
+      .split(',')[1]
+      .replace('_', ' ');
+  };
 
   render() {
-    const {recognitions, source,fileData} = this.state;
-    console.log(source)
+    const {recognitions, source, fileData} = this.state;
     return (
       <LinearGradient
         colors={['#a89063', '#f2b01f']}
@@ -145,38 +158,23 @@ export default class App extends Component {
           <Text style={styles.title}>Plant Disease Detector</Text>
           <Text style={styles.subtitle}>Created By Naimur</Text>
         </View>
-        <View style={styles.imageContainer}>
-          {recognitions ? (
-            <View >
-              <Image source={{ uri: 'data:image/jpeg;base64,' + fileData }} style={[styles.flowerImage,styles.round]} />
-              <Text style={styles.recog}>Fruit Name: {recognitions.name.replace('___',",").split(",")[0]}</Text>
-              <Text style={styles.recog}>Disease Name: {recognitions.name.replace('___',",").split(",")[1].replace("_"," ")}</Text>
-              <Text style={styles.recog}>Accuraccy: {recognitions.confidence}%</Text>
-            </View>
-          ) : (
-           
-              <Image
-                source={require('./assets/plant.png')}
-                style={styles.flowerImage}
-              />
-            
-          )}
-        </View>
-  
+
+        <FlowerImage recognitions={recognitions} fileData={fileData} />
+
         <View style={styles.buttonContainer}>
           <Button
             title="Select From Gallery"
             buttonStyle={styles.buttonGallery}
             containerStyle={{margin: 5}}
             titleStyle={{fontSize: 20}}
-            onPress={()=>this.selectGalleryImage()}
+            onPress={() => this.selectGalleryImage()}
           />
           <Button
             title="Use Camera Roll"
             buttonStyle={styles.buttonCamera}
             containerStyle={{margin: 5}}
             titleStyle={{fontSize: 20}}
-            onPress={()=>this.tatePhoto()}
+            onPress={() => this.takePhoto()}
           />
         </View>
       </LinearGradient>
@@ -207,11 +205,10 @@ const styles = StyleSheet.create({
   },
   recog: {
     fontSize: 20,
-    textAlign:'center',
-    marginTop:5,
-    color:'black',
-    fontWeight:'bold'
-
+    textAlign: 'center',
+    marginTop: 5,
+    color: 'black',
+    fontWeight: 'bold',
   },
   buttonGallery: {
     width: 300,
@@ -228,22 +225,21 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: 'flex-end',
     paddingBottom: 40,
-    display:'flex'
+    display: 'flex',
   },
   imageContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',  
-    
+    justifyContent: 'center',
   },
   flowerImage: {
     height: 250,
     width: 250,
   },
-  round:{
-    borderRadius:150,
-    overflow:"hidden",
-    borderWidth:5,
-    borderColor:'#87f007'
-  }
+  round: {
+    borderRadius: 150,
+    overflow: 'hidden',
+    borderWidth: 5,
+    borderColor: '#87f007',
+  },
 });
