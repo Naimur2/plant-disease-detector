@@ -1,15 +1,17 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { ScrollView, StyleSheet } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 import TfLite from 'tflite-react-native';
-import FlowerImage from './src/components/FlowerImage';
+import ButtonView from './src/components/home/ButtonView';
+import TitleContainer from './src/components/home/TitleContainer';
+import HomePage from './src/HomePage';
+import OutputPage from './src/OutputPage';
+const tfLite = new TfLite();
+const modelFile = 'models/model.tflite';
+const labelsFile = 'models/labels.txt';
 
-let tfLite = new TfLite();
-var modelFile = 'models/model.tflite';
-var labelsFile = 'models/labels.txt';
 
 export default class App extends Component {
   constructor(props) {
@@ -33,7 +35,7 @@ export default class App extends Component {
     });
   }
 
-  selectGalleryImage() {
+  selectGalleryImage=()=> {
     console.log('ok');
     const options = {
       storageOptions: {
@@ -86,7 +88,7 @@ export default class App extends Component {
     });
   }
 
-  takePhoto() {
+  takePhoto=()=> {
     console.log('ok');
     const options = {
       storageOptions: {
@@ -103,7 +105,7 @@ export default class App extends Component {
       } else if (response.error) {
         console.log('Image Picker Error');
       } else {
-        const sre = {uri: response.uri};
+
         this.setState({
           source: response.path,
           filePath: response,
@@ -140,43 +142,18 @@ export default class App extends Component {
     });
   }
 
-  getName = () => {
-    const {recognitions} = this.state;
-    return recognitions.name
-      .replace('___', ',')
-      .split(',')[1]
-      .replace('_', ' ');
-  };
-
   render() {
-    const {recognitions, source, fileData} = this.state;
+    const {recognitions, fileData} = this.state;
     return (
       <LinearGradient
         colors={['#a89063', '#f2b01f']}
         style={styles.linearGradient}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Plant Disease Detector</Text>
-          <Text style={styles.subtitle}>Created By Naimur</Text>
-        </View>
-
-        <FlowerImage recognitions={recognitions} fileData={fileData} />
-
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Select From Gallery"
-            buttonStyle={styles.buttonGallery}
-            containerStyle={{margin: 5}}
-            titleStyle={{fontSize: 20}}
-            onPress={() => this.selectGalleryImage()}
-          />
-          <Button
-            title="Use Camera Roll"
-            buttonStyle={styles.buttonCamera}
-            containerStyle={{margin: 5}}
-            titleStyle={{fontSize: 20}}
-            onPress={() => this.takePhoto()}
-          />
-        </View>
+       <ScrollView>
+         <TitleContainer />
+         <OutputPage recognitions={recognitions} fileData={fileData} />
+         <ButtonView selectGalleryImage={this.selectGalleryImage} takePhoto={this.takePhoto}/>
+         <HomePage selectGalleryImage={this.selectGalleryImage} takePhoto={this.takePhoto} />
+       </ScrollView>
       </LinearGradient>
     );
   }
@@ -187,59 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow:'scroll',
   },
-  titleContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: 70,
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-  },
-  subtitle: {
-    color: 'white',
-    fontSize: 16,
-  },
-  recog: {
-    fontSize: 20,
-    textAlign: 'center',
-    marginTop: 5,
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  buttonGallery: {
-    width: 300,
-    height: 57,
-    backgroundColor: 'black',
-    borderRadius: 30,
-  },
-  buttonCamera: {
-    width: 300,
-    height: 57,
-    backgroundColor: '#786742',
-    borderRadius: 30,
-  },
-  buttonContainer: {
-    justifyContent: 'flex-end',
-    paddingBottom: 40,
-    display: 'flex',
-  },
-  imageContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  flowerImage: {
-    height: 250,
-    width: 250,
-  },
-  round: {
-    borderRadius: 150,
-    overflow: 'hidden',
-    borderWidth: 5,
-    borderColor: '#87f007',
-  },
+
 });
