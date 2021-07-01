@@ -2,17 +2,22 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import getTreatment from '../../services/treatment';
+import FlowerImage from '../common/FlowerImage';
 import Recognitions from './Recognitions';
-export default function PlantTreatment({recognitions}) {
-  let diseaseName = recognitions.name.replace('(', '').replace(')', '');
+
+export default function PlantTreatment({recognitions,fileData}) {
+let diseaseName = recognitions.name.replace('(', '').replace(')', '');
 
   const treatments = getTreatment()[diseaseName];
   if (typeof treatments === 'undefined' || !treatments) {
-    return <Text styles={[styles.textStyle]}>No Results Found</Text>;
+    return (
+      <Text style={[styles.textStyle,styles.noResult]}>No Results Found</Text>
+   );
   }
   return (
     <View style={styles.container}>
-      <Recognitions recognitions={recognitions} />
+      <FlowerImage recognitions={recognitions} fileData={fileData} />
+      <Recognitions  recognitions={recognitions} />
       <View style={styles.section}>
         <Text style={styles.heading}>Symptoms</Text>
         <Text style={styles.textProp}>{treatments.symptoms}</Text>
@@ -53,10 +58,16 @@ const styles = StyleSheet.create(
         },
         textProp:{
             color:'black',
+
         },
         treatments:{
             paddingTop:5,
             paddingBottom:5,
+        },
+        noResult:{
+          textAlign:'center',
+          fontSize:25,
+          color:'white',
         },
     }
 );

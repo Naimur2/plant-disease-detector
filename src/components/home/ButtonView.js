@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     marginTop: 10,
+    marginBottom:10,
   },
   containerStyle: {
     margin: 5,

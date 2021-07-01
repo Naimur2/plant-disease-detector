@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 export default function Recognitions({recognitions}) {
   const {recog} = styles;
   const details = {
@@ -10,19 +10,24 @@ export default function Recognitions({recognitions}) {
   };
   if (recognitions === null || !recognitions) {return   <Text style={recog}>Please Select an Image.</Text>;}
   return (
-    <>
-      <Text style={recog}>{details.fruitName()}</Text>
-      <Text style={recog}>{details.diseaseName()}</Text>
+    <View style={styles.area}>
+      <Text style={recog}>Tree Name:{details.fruitName()}</Text>
+      <Text style={recog}>Disease Name:{details.diseaseName()}</Text>
       <Text style={recog}>Accuraccy: {details.getAccuracy()}</Text>
-    </>
+    </View>
   );
 }
 const styles = StyleSheet.create({
   recog: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: 'left',
     marginTop: 5,
     color: 'black',
     fontWeight: 'bold',
+    padding:5,
+  },
+  area:{
+backgroundColor:'#ccc',
+padding:5,
   },
 });

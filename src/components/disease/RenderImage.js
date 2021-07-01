@@ -12,11 +12,11 @@ export default function RenderImage({recognitions = null,fileData = null}) {
 
     };
 
-  const {flowerImage, round } = styles;
+  const {flowerImage } = styles;
   return (
         <Image
           source={getImage()}
-          style={[flowerImage,round] }
+          style={[flowerImage] }
         />
   );
 }

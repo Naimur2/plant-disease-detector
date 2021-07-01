@@ -14,10 +14,12 @@ const styles = StyleSheet.create({
   titleContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: 70,
+    marginTop: 25,
+    marginBottom:50,
+
   },
   title: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
