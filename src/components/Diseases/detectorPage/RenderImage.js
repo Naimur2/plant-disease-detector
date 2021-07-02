@@ -7,7 +7,7 @@ export default function RenderImage({recognitions = null,fileData = null}) {
   const getImage = ()=>{
         let url = '';
         if (recognitions && fileData) {url = {uri: 'data:image/jpeg;base64,' + fileData};}
-        else {url = require('../../images/plant.png');}
+        else {url = require('../../../images/plant.png');}
         return url;
 
     };

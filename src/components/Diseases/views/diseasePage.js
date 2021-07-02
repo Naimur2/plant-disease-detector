@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { ScrollView } from 'react-native';
-import ButtonView from './home/ButtonView';
-import TitleContainer from './home/TitleContainer';
-import TreatmentPage from './detectorPage/TreatmentPage';
+import TreatmentPage from '../detectorPage/TreatmentPage';
+import ButtonView from './ButtonView';
+import TitleContainer from './TitleContainer';
 export default function HomePage({selectGalleryImage, takePhoto,history,nextPage,recognitions,fileData}) {
 
   return (
