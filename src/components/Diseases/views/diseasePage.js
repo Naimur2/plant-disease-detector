@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native';
 import TreatmentPage from '../detectorPage/TreatmentPage';
 import ButtonView from './ButtonView';
 import TitleContainer from './TitleContainer';
-export default function HomePage({selectGalleryImage, takePhoto,history,nextPage,recognitions,fileData}) {
+export default function DiseasePage({selectGalleryImage, takePhoto,history,nextPage,recognitions,fileData}) {
 
   return (
     <ScrollView>

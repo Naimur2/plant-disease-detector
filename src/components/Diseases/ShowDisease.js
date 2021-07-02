@@ -29,6 +29,5 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
     justifyContent: 'space-between',
-    overflow: 'scroll',
   },
 });

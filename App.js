@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import ShowDisease from './src/components/Diseases/ShowDisease';
+import RouterPage from './src/components/RouterPage';
 
 export default function App() {
-  return <ShowDisease />;
+  return (
+    <RouterPage />
+  );
 }
