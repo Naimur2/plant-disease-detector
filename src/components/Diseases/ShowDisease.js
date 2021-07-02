@@ -2,8 +2,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import HomePage from './components/HomePage';
-import EventManager from './EventManager';
+import EventManager from './common/EventManager';
+import HomePage from './views/diseasePage';
 
 
 

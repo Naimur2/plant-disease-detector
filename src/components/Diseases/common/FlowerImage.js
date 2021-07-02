@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import RenderImage from '../disease/RenderImage';
+import RenderImage from '../detectorPage/RenderImage';
 
 export default function FlowerImage({recognitions,fileData}) {
       const {imageContainer} = styles;

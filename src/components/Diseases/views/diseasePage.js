@@ -3,7 +3,7 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import ButtonView from './home/ButtonView';
 import TitleContainer from './home/TitleContainer';
-import TreatmentPage from './TreatmentPage';
+import TreatmentPage from './detectorPage/TreatmentPage';
 export default function HomePage({selectGalleryImage, takePhoto,history,nextPage,recognitions,fileData}) {
 
   return (

@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import getTreatment from '../../services/treatment';
+import getTreatment from '../../../services/treatment';
 import FlowerImage from '../common/FlowerImage';
 import Recognitions from './Recognitions';
 
 export default function PlantTreatment({recognitions,fileData}) {
 let diseaseName = recognitions.name.replace('(', '').replace(')', '');
-
+console.log(recognitions);
   const treatments = getTreatment()[diseaseName];
   if (typeof treatments === 'undefined' || !treatments) {
     return (

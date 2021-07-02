@@ -1,10 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import OutputPage from './disease/OutputPage';
+import OutputPage from './OutputPage';
 
 export default function TreatmentPage({recognitions, fileData}) {
-  return (
-
-      <OutputPage recognitions={recognitions} fileData={fileData} />
-  );
+  return <OutputPage recognitions={recognitions} fileData={fileData} />;
 }
