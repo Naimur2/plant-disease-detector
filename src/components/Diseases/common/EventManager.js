@@ -48,13 +48,13 @@ export default class RouterPage extends Component {
       } else if (response.error) {
         console.log('Image Picker Error');
       } else {
+        console.log(response);
         this.setState({
           source: response.path,
           filePath: response,
           fileData: response.data,
           fileUri: response.uri,
         });
-
         tfLite.runModelOnImage(
           {
             path: response.path, // required

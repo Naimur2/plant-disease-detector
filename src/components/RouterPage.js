@@ -1,18 +1,48 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import { NativeRouter, Route, Switch } from 'react-router-native';
+import React, { useState } from 'react';
+import uuid from 'react-native-uuid';
+import { BackButton, NativeRouter, Route, Switch } from 'react-router-native';
+import LoginPage from './AuthPage/LoginPage';
+import RegisterPage from './AuthPage/RegisterPage';
 import ShowDisease from './Diseases/ShowDisease';
 import HomePage from './HomePage';
-import LoginPage from './LoginPage/LoginPage';
 
 export default function RouterPage() {
+        const [loggedUser, setLoggedUser] = useState('');
+        const [users, setUsers] = useState([
+          {id:'_a1234a', email: 'naimur@gmail.com', password:'123456'},
+          {id:'_a1234b', email: 'mustafiz@gmail.com', password:'abcdefgh'},
+          {id:'_a1234c', email: 'sajib@gmail.com', password:'123456'},
+          {id:'_a1234d' ,email: 'shovon@gmail.com', password:'123456'},
+          {id:'_a1234e', email: 'pallab@gmail.com', password:'123456'},
+        ]);
+
+        const handleLogin = userInfo => {
+          setLoggedUser(userInfo);
+        };
+        const handleRegister = async (values)=>{
+          let uid = await uuid.v1();
+          const user = await {id:uid ,...values};
+          await setUsers((prevState)=> [...prevState,user] );
+          await console.log(users);
+        };
+
   return (
     <NativeRouter>
-      <Switch>
-        <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/" component={HomePage} />
-        <Route path="/disease" component={ShowDisease} />
-      </Switch>
+      <BackButton>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <LoginPage users={users} userId={loggedUser} loginHandler={handleLogin} {...props} />
+            )}
+          />
+          <Route path="/home" render={(props)=>( <HomePage userId={loggedUser} {...props} /> )} />
+          <Route path="/register" render={(props)=> <RegisterPage users={users} registerHandler={handleRegister} {...props} />} />
+          <Route path="/disease" component={ShowDisease} />
+        </Switch>
+      </BackButton>
     </NativeRouter>
   );
 }

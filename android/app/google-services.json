@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "21251200248",
+    "project_id": "tree-shop-164b8",
+    "storage_bucket": "tree-shop-164b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21251200248:android:f5f0a7a94869df1089d70d",
+        "android_client_info": {
+          "package_name": "com.plantdiseasedetector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21251200248-j7ueqv6c0a77pao03t95iv7fun5qa9mf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9FBTyt_kIMa-ZK22WzyZJAwQo1NG0hx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21251200248-j7ueqv6c0a77pao03t95iv7fun5qa9mf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
