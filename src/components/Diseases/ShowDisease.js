@@ -10,7 +10,7 @@ export default class ShowDisease extends EventManager {
     const {recognitions, fileData, nextPage} = this.state;
     return (
       <LinearGradient
-        colors={['#a89063', '#f2b01f']}
+        colors={['green', 'white']}
         style={styles.linearGradient}>
         <DiseasePage
           nextPage={nextPage}

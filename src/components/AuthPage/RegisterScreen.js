@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -12,10 +12,8 @@ import { Button, Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Yup from 'yup';
 
-export default function RegisterPage({
-  history,
-  registerHandler,
-  users,
+export default function RegisterScreen({
+  navigation,
 }) {
   const {
     container,
@@ -27,6 +25,15 @@ export default function RegisterPage({
     buttonTitle,
   } = styles;
 
+  const [users, setUsers] = useState([
+    {id:'_a1234a', email: 'naimur@gmail.com', password:'123456'},
+    {id:'_a1234b', email: 'mustafiz@gmail.com', password:'abcdefgh'},
+    {id:'_a1234c', email: 'sajib@gmail.com', password:'123456'},
+    {id:'_a1234d' ,email: 'shovon@gmail.com', password:'123456'},
+    {id:'_a1234e', email: 'pallab@gmail.com', password:'123456'},
+  ]);
+
+
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
@@ -37,14 +44,14 @@ export default function RegisterPage({
   const handleRegister = values => {
     const findAccount = users.filter(m => m.email === values.email);
     if (findAccount.length === 0) {
-      history.push('/');
-      registerHandler(values);
+      navigation.navigate('Home');
+      setUsers(values);
     } else {
       Alert.alert('Account Already Exists');
     }
   };
 
-  const goLogin = () => history.push('/');
+  const goLogin = () => navigation.navigate('Login');
 
   return (
     <KeyboardAvoidingView style={container}>
