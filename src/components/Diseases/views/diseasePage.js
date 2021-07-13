@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { ScrollView } from 'react-native';
-import TreatmentPage from '../detectorPage/TreatmentPage';
+// import OutputPage from '../detectorPage/OutputPage';
 import ButtonView from './ButtonView';
 import TitleContainer from './TitleContainer';
 export default function DiseasePage({selectGalleryImage, takePhoto,history,nextPage,recognitions,fileData}) {
@@ -13,7 +13,7 @@ export default function DiseasePage({selectGalleryImage, takePhoto,history,nextP
         selectGalleryImage={selectGalleryImage}
         takePhoto={takePhoto}
       />
-      <TreatmentPage recognitions={recognitions} fileData={fileData} />
+      {/* <OutputPage recognitions={recognitions} fileData={fileData} /> */}
     </ScrollView>
   );
 }

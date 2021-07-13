@@ -19,7 +19,6 @@ export default class RouterPage extends Component {
       },
       fileData: '',
       fileUri: '',
-      nextPage:false,
     };
     tfLite.loadModel({model: modelFile, labels: labelsFile}, (err, res) => {
       if (err) {
@@ -76,7 +75,6 @@ export default class RouterPage extends Component {
                 recognitions: {
                   confidence: (res[0].confidence * 100).toFixed(0),
                   name: res[0].label,
-                  nextPage:true,
                 }
                 ,
               });
