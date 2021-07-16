@@ -1,37 +1,37 @@
 /* eslint-disable prettier/prettier */
+import { Link } from '@react-navigation/native';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
-import {
-  Alert,
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
-import { Button, Input } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, Icon, Input } from 'react-native-elements';
 import * as Yup from 'yup';
 
-export default function RegisterScreen({
-  navigation,
-}) {
+export default function RegisterScreen({navigation , registerHandler}) {
+  const [inputType,setInputType] = useState({show:true,icon:'eye-slash'});
+
+  const handleShowPass = () =>{
+    const icon = inputType.icon === 'eye-slash' ? 'eye' : 'eye-slash';
+    const show = !inputType.show;
+    setInputType({
+      show,icon,
+    });
+  };
+
   const {
     container,
     form,
     buttons,
-    login,
-    signup,
-    buttonContainer,
+    regSignLink,
     buttonTitle,
+    socialButtons,
+    registerArea,
+    socialTitle,
+    googleButton,
+    fbButton,
+    socialButton,
+    forgetPass,
   } = styles;
 
-  const [users, setUsers] = useState([
-    {id:'_a1234a', email: 'naimur@gmail.com', password:'123456'},
-    {id:'_a1234b', email: 'mustafiz@gmail.com', password:'abcdefgh'},
-    {id:'_a1234c', email: 'sajib@gmail.com', password:'123456'},
-    {id:'_a1234d' ,email: 'shovon@gmail.com', password:'123456'},
-    {id:'_a1234e', email: 'pallab@gmail.com', password:'123456'},
-  ]);
 
 
   const LoginSchema = Yup.object().shape({
@@ -41,68 +41,115 @@ export default function RegisterScreen({
       .required('Password is required'),
   });
 
-  const handleRegister = values => {
-    const findAccount = users.filter(m => m.email === values.email);
-    if (findAccount.length === 0) {
-      navigation.navigate('Home');
-      setUsers(values);
-    } else {
-      Alert.alert('Account Already Exists');
-    }
-  };
-
-  const goLogin = () => navigation.navigate('Login');
-
   return (
-    <KeyboardAvoidingView style={container}>
-      <Formik
-        initialValues={{
-          email: '',
-          password: '',
-        }}
-        validationSchema={LoginSchema}
-        onSubmit={values => handleRegister(values)}>
-        {({handleChange, handleSubmit, errors, touched, values}) => (
-          <ScrollView style={form}>
-            <Input
-              onChangeText={handleChange('email')}
-              value={values.email}
-              placeholder="Email"
-              errorMessage={errors.email && touched.email ? errors.email : null}
-              leftIcon={<Icon name="envelope" size={24} color="skyblue" />}
-            />
-
-            <Input
-              errorMessage={
-                errors.password && touched.password ? errors.password : null
-              }
-              onChangeText={handleChange('password')}
-              value={values.password}
-              secureTextEntry={true}
-              maxLength={16}
-              placeholder="Password"
-              leftIcon={<Icon name="key" size={24} color="skyblue" />}
-            />
-
-            <View style={buttonContainer}>
-              <Button
-                titleStyle={buttonTitle}
-                buttonStyle={[buttons, login]}
-                title="Sign Up"
-                onPress={handleSubmit}
+    <ScrollView contentContainerStyle={container}>
+      <>
+        <View style={socialButtons}>
+          <Button
+            titleStyle={socialTitle}
+            buttonStyle={[googleButton, socialButton]}
+            icon={
+              <Icon name="google" type="font-awesome" size={15} color="white" />
+            }
+            title="Google"
+          />
+          <Button
+            titleStyle={socialTitle}
+            buttonStyle={[fbButton, socialButton]}
+            icon={
+              <Icon
+                name="facebook-f"
+                type="font-awesome"
+                size={15}
+                color="white"
               />
-              <Button
-                titleStyle={buttonTitle}
-                buttonSstyle={[buttons, signup]}
-                title="Login"
-                onPress={goLogin}
-              />
-
-            </View>
-          </ScrollView>
-        )}
-      </Formik>
-    </KeyboardAvoidingView>
+            }
+            title="Facebook"
+          />
+        </View>
+        <View style={form}>
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            validationSchema={LoginSchema}
+            onSubmit={values => registerHandler(values)}>
+            {({handleChange, handleSubmit, errors, touched, values}) => (
+              <>
+                <Input
+                  onChangeText={handleChange('email')}
+                  value={values.email}
+                  placeholder="Email"
+                  errorMessage={
+                    errors.email && touched.email ? errors.email : null
+                  }
+                  leftIcon={
+                    <Icon
+                      name="envelope"
+                      type="font-awesome"
+                      size={24}
+                      color="#ACAFB4"
+                    />
+                  }
+                />
+                <Input
+                  errorMessage={
+                    errors.password && touched.password ? errors.password : null
+                  }
+                  onChangeText={handleChange('password')}
+                  value={values.password}
+                  secureTextEntry={inputType.show}
+                  maxLength={16}
+                  placeholder="Password"
+                  leftIcon={
+                    <Icon
+                      name="key"
+                      type="font-awesome"
+                      size={24}
+                      color="#ACAFB4"
+                    />
+                  }
+                  rightIcon={
+                   values.password ? (
+                    <Icon
+                    onPress={handleShowPass}
+                    name={inputType.icon}
+                    type="font-awesome-5"
+                    size={24}
+                    color="#ACAFB4"
+                  />
+                   ) : null
+                  }
+                />
+                <Button
+                  titleStyle={buttonTitle}
+                  buttonStyle={buttons}
+                  title="Register"
+                  onPress={handleSubmit}
+                />
+                <Text style={forgetPass}>
+                  Foreget Your Password?
+                  <Link style={regSignLink} to="/Recover">
+                    {' '}
+                    Recover password.
+                  </Link>
+                </Text>
+              </>
+            )}
+          </Formik>
+        </View>
+        <View style={registerArea}>
+          <Text>
+            Already have an  account?
+            <Link style={regSignLink} to="/Login">
+              {' '}
+              Login.
+            </Link>
+          </Text>
+        </View>
+      </>
+    </ScrollView>
   );
 }
 
@@ -110,28 +157,59 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around',
     flexDirection: 'column',
+    paddingHorizontal: '5%',
   },
   form: {
-    marginTop: '50%',
-    width: '90%',
+    flex: 0.7,
+    width: '100%',
+    marginVertical: '5%',
   },
   buttons: {
-    marginBottom: 10,
+    marginVertical: 12,
     borderRadius: 5,
+    backgroundColor: '#359244',
   },
-  login: {
-    backgroundColor: 'green',
-  },
-  signup: {
-    backgroundColor: 'blue',
-  },
-  buttonContainer: {
-    marginTop: '10%',
+  regSignLink: {
+    color: 'tomato',
   },
   buttonTitle: {
     fontSize: 16,
     textTransform: 'uppercase',
+  },
+  registerArea: {
+    flex: 0.1,
+    justifyContent: 'center',
+  },
+  socialButtons: {
+    flexDirection: 'row',
+    flex: 0.2,
+    alignItems: 'flex-end',
+    paddingBottom: '10%',
+    justifyContent: 'center',
+  },
+  socialButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 5,
+    alignSelf: 'stretch',
+    minWidth: '46%',
+    textAlign: 'center',
+  },
+  socialTitle: {
+    color: 'white',
+    paddingHorizontal: '5%',
+  },
+  fbButton: {
+    backgroundColor: '#355492',
+    marginLeft: '2%',
+  },
+  googleButton: {
+    backgroundColor: 'red',
+    marginRight: '2%',
+  },
+  forgetPass: {
+    textAlign: 'center',
+    marginBottom: 1,
   },
 });

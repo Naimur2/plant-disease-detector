@@ -6,13 +6,18 @@ import StackNavigator from './src/components/StackNavigator';
 
 export default function App() {
   const [login, setLogin] = useState(false);
-  const handleLogin = () =>{
+  const handleLogin = (values) =>{
     setLogin(!login);
+    console.log(values);
+  };
+
+  const registerHandler = (values) =>{
+   console.log(values);
   };
   return (
    <NavigationContainer>
    {
-     login ? (<BottomNavigator />) : (< StackNavigator loginHandler={handleLogin} /> )
+     login ? (<BottomNavigator />) : (< StackNavigator loginHandler={handleLogin} registerHandler={registerHandler} /> )
    }
    </NavigationContainer>
   );

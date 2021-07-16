@@ -1,12 +1,22 @@
 /* eslint-disable prettier/prettier */
 import { Link } from '@react-navigation/native';
 import { Formik } from 'formik';
-import React from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
 import * as Yup from 'yup';
 
-export default function LoginScreen({navigation, loginHandler}) {
+export default function LoginScreen({navigation , loginHandler}) {
+  const [inputType,setInputType] = useState({show:true,icon:'eye-slash'});
+
+  const handleShowPass = () =>{
+    const icon = inputType.icon === 'eye-slash' ? 'eye' : 'eye-slash';
+    const show = !inputType.show;
+    setInputType({
+      show,icon,
+    });
+  };
+
   const {
     container,
     form,
@@ -22,13 +32,7 @@ export default function LoginScreen({navigation, loginHandler}) {
     forgetPass,
   } = styles;
 
-  const users = [
-    {id: '_a1234a', email: 'naimur@gmail.com', password: '123456'},
-    {id: '_a1234b', email: 'mustafiz@gmail.com', password: 'abcdefgh'},
-    {id: '_a1234c', email: 'sajib@gmail.com', password: '123456'},
-    {id: '_a1234d', email: 'shovon@gmail.com', password: '123456'},
-    {id: '_a1234e', email: 'pallab@gmail.com', password: '123456'},
-  ];
+
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -36,18 +40,6 @@ export default function LoginScreen({navigation, loginHandler}) {
       .min(6, 'Password is too short - should be 6 chars minimum')
       .required('Password is required'),
   });
-
-  const logChecker = values => {
-    const findAccount = users.filter(
-      m => m.email === values.email && m.password === values.password,
-    );
-    if (findAccount.length !== 0) {
-      loginHandler();
-      navigation.navigate('Home');
-    } else {
-      Alert.alert('Email or password is incorrect,Please try again.');
-    }
-  };
 
   return (
     <ScrollView contentContainerStyle={container}>
@@ -82,7 +74,7 @@ export default function LoginScreen({navigation, loginHandler}) {
               password: '',
             }}
             validationSchema={LoginSchema}
-            onSubmit={values => logChecker(values)}>
+            onSubmit={values => loginHandler(values)}>
             {({handleChange, handleSubmit, errors, touched, values}) => (
               <>
                 <Input
@@ -107,7 +99,7 @@ export default function LoginScreen({navigation, loginHandler}) {
                   }
                   onChangeText={handleChange('password')}
                   value={values.password}
-                  secureTextEntry={true}
+                  secureTextEntry={inputType.show}
                   maxLength={16}
                   placeholder="Password"
                   leftIcon={
@@ -117,6 +109,17 @@ export default function LoginScreen({navigation, loginHandler}) {
                       size={24}
                       color="#ACAFB4"
                     />
+                  }
+                  rightIcon={
+                   values.password ? (
+                    <Icon
+                    onPress={handleShowPass}
+                    name={inputType.icon}
+                    type="font-awesome-5"
+                    size={24}
+                    color="#ACAFB4"
+                  />
+                   ) : null
                   }
                 />
                 <Button
