@@ -2,8 +2,9 @@
 import { Link } from '@react-navigation/native';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
+import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view';
 import * as Yup from 'yup';
 
 export default function RegisterScreen({navigation , registerHandler}) {
@@ -30,11 +31,13 @@ export default function RegisterScreen({navigation , registerHandler}) {
     fbButton,
     socialButton,
     forgetPass,
+
   } = styles;
 
 
 
   const LoginSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required').min(8, 'Name should be 8 chars minimum'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string()
       .min(6, 'Password is too short - should be 6 chars minimum')
@@ -42,8 +45,8 @@ export default function RegisterScreen({navigation , registerHandler}) {
   });
 
   return (
-    <ScrollView contentContainerStyle={container}>
-      <>
+    <KeyboardAvoidingScrollView containerStyle={container}>
+
         <View style={socialButtons}>
           <Button
             titleStyle={socialTitle}
@@ -70,6 +73,7 @@ export default function RegisterScreen({navigation , registerHandler}) {
         <View style={form}>
           <Formik
             initialValues={{
+              name:'',
               email: '',
               password: '',
             }}
@@ -77,6 +81,23 @@ export default function RegisterScreen({navigation , registerHandler}) {
             onSubmit={values => registerHandler(values)}>
             {({handleChange, handleSubmit, errors, touched, values}) => (
               <>
+                <Input
+                  onChangeText={handleChange('name')}
+                  value={values.name}
+                  placeholder="Name"
+                  errorMessage={
+                    errors.name && touched.name ? errors.name : null
+                  }
+                  leftIcon={
+                    <Icon
+                      name="user"
+                      type="font-awesome"
+                      size={24}
+                      color="#ACAFB4"
+                    />
+                  }
+                />
+
                 <Input
                   onChangeText={handleChange('email')}
                   value={values.email}
@@ -93,6 +114,7 @@ export default function RegisterScreen({navigation , registerHandler}) {
                     />
                   }
                 />
+
                 <Input
                   errorMessage={
                     errors.password && touched.password ? errors.password : null
@@ -148,8 +170,7 @@ export default function RegisterScreen({navigation , registerHandler}) {
             </Link>
           </Text>
         </View>
-      </>
-    </ScrollView>
+    </KeyboardAvoidingScrollView>
   );
 }
 
@@ -158,7 +179,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
-    paddingHorizontal: '5%',
+    paddingVertical:'20%',
   },
   form: {
     flex: 0.7,
@@ -171,6 +192,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#359244',
   },
   regSignLink: {
+    textAlign:'center',
     color: 'tomato',
   },
   buttonTitle: {
@@ -179,7 +201,8 @@ const styles = StyleSheet.create({
   },
   registerArea: {
     flex: 0.1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    alignItems:'center',
   },
   socialButtons: {
     flexDirection: 'row',
@@ -209,6 +232,7 @@ const styles = StyleSheet.create({
     marginRight: '2%',
   },
   forgetPass: {
+    marginTop:10,
     textAlign: 'center',
     marginBottom: 1,
   },

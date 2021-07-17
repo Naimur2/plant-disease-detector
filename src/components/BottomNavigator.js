@@ -1,14 +1,13 @@
 /* eslint-disable prettier/prettier */
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {Icon} from 'react-native-elements';
-import SettingsScreen from './Accounts/SettingsScreen';
-import ShowDisease from './Diseases/ShowDisease';
-import HomeScreen from './Main/HomeScreen';
+import { Icon } from 'react-native-elements';
+import SettingsRouter from './Accounts/SettingsRouter';
+import DiseaseRouter from './Diseases/DiseaseRouter';
 
 const Tab = createBottomTabNavigator();
 
-export default function BootmNavigator() {
+export default function BootmNavigator({logOut,user}) {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -39,9 +38,8 @@ export default function BootmNavigator() {
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
       }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Scan" component={ShowDisease} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Scan" component={DiseaseRouter} />
+      <Tab.Screen name="Settings" >{props=><SettingsRouter {...props} user={user} logOut={logOut} />}</Tab.Screen>
     </Tab.Navigator>
   );
 }

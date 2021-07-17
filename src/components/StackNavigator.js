@@ -6,12 +6,12 @@ import RegisterScreen from './AuthPage/RegisterScreen';
 import BottomNavigation from './BottomNavigator';
 
 const Stack = createStackNavigator();
-export default function StackNavigator({loginHandler,registerHandler}) {
+export default function StackNavigator({loginHandler,registerHandler,googleSignIn}) {
   return (
 
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login"  >
-            { props => <LoginScreen {...props} loginHandler={loginHandler} /> }
+            { props => <LoginScreen {...props} loginHandler={loginHandler} googleSignIn={googleSignIn} /> }
         </Stack.Screen>
         <Stack.Screen name="Register" >
           {props=> <RegisterScreen {...props} registerHandler={registerHandler} /> }

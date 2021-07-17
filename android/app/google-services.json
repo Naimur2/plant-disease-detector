@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "21251200248-1lfhhnkit2vamk79prugca2j3aid0a4r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.plantdiseasedetector",
+            "certificate_hash": "65389b28b4ce47183a93fdf1dc42e1bd4c66e880"
+          }
+        },
+        {
           "client_id": "21251200248-j7ueqv6c0a77pao03t95iv7fun5qa9mf.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -2,11 +2,12 @@
 import { Link } from '@react-navigation/native';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
+import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view';
 import * as Yup from 'yup';
 
-export default function LoginScreen({navigation , loginHandler}) {
+export default function LoginScreen({navigation , loginHandler,googleSignIn}) {
   const [inputType,setInputType] = useState({show:true,icon:'eye-slash'});
 
   const handleShowPass = () =>{
@@ -42,12 +43,13 @@ export default function LoginScreen({navigation , loginHandler}) {
   });
 
   return (
-    <ScrollView contentContainerStyle={container}>
+    <KeyboardAvoidingScrollView containerStyle={container}>
       <>
         <View style={socialButtons}>
           <Button
             titleStyle={socialTitle}
             buttonStyle={[googleButton, socialButton]}
+            onPress={googleSignIn}
             icon={
               <Icon name="google" type="font-awesome" size={15} color="white" />
             }
@@ -149,7 +151,7 @@ export default function LoginScreen({navigation , loginHandler}) {
           </Text>
         </View>
       </>
-    </ScrollView>
+    </KeyboardAvoidingScrollView>
   );
 }
 
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
-    paddingHorizontal: '5%',
+    paddingVertical:'20%',
   },
   form: {
     flex: 0.7,
@@ -171,6 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#359244',
   },
   regSignLink: {
+    textAlign:'center',
     color: 'tomato',
   },
   buttonTitle: {
@@ -179,7 +182,8 @@ const styles = StyleSheet.create({
   },
   registerArea: {
     flex: 0.1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    alignItems:'center',
   },
   socialButtons: {
     flexDirection: 'row',
@@ -209,6 +213,7 @@ const styles = StyleSheet.create({
     marginRight: '2%',
   },
   forgetPass: {
+    marginTop:10,
     textAlign: 'center',
     marginBottom: 1,
   },
