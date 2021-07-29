@@ -4,6 +4,7 @@ import React from 'react';
 import { Icon } from 'react-native-elements';
 import SettingsRouter from './Accounts/SettingsRouter';
 import DiseaseRouter from './Diseases/DiseaseRouter';
+import NurseryHomePage from './SearchNursery/NurseryHomePage';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,6 +22,8 @@ export default function BootmNavigator({logOut,user}) {
             icon.name = focused ? 'settings' : 'settings-outline';
           } else if (route.name === 'Scan') {
             icon.name = focused ? 'scan' : 'scan-outline';
+          } else if (route.name === 'Search') {
+            icon.name = focused ? 'search' : 'search-outline';
           }
 
           // You can return any component that you like here!
@@ -39,6 +42,7 @@ export default function BootmNavigator({logOut,user}) {
         inactiveTintColor: 'gray',
       }}>
       <Tab.Screen name="Scan" component={DiseaseRouter} />
+      <Tab.Screen name="Search" component={NurseryHomePage} />
       <Tab.Screen name="Settings" >{props=><SettingsRouter {...props} user={user} logOut={logOut} />}</Tab.Screen>
     </Tab.Navigator>
   );

@@ -7,7 +7,7 @@ import { Button, Icon, Input } from 'react-native-elements';
 import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view';
 import * as Yup from 'yup';
 
-export default function LoginScreen({navigation , loginHandler,googleSignIn}) {
+export default function LoginScreen({navigation , loginHandler,googleSignIn , loginAnonymously}) {
   const [inputType,setInputType] = useState({show:true,icon:'eye-slash'});
 
   const handleShowPass = () =>{
@@ -28,7 +28,6 @@ export default function LoginScreen({navigation , loginHandler,googleSignIn}) {
     registerArea,
     socialTitle,
     googleButton,
-    fbButton,
     socialButton,
     forgetPass,
   } = styles;
@@ -46,7 +45,17 @@ export default function LoginScreen({navigation , loginHandler,googleSignIn}) {
     <KeyboardAvoidingScrollView containerStyle={container}>
       <>
         <View style={socialButtons}>
-          <Button
+        <Button
+            titleStyle={socialTitle}
+            buttonStyle={[googleButton, socialButton]}
+            icon={
+              <Icon name="contacts" type="material" size={15} color="white" />
+            }
+            title="Anonymous Login"
+            onPress={loginAnonymously}
+          />
+
+          {/* <Button
             titleStyle={socialTitle}
             buttonStyle={[googleButton, socialButton]}
             onPress={googleSignIn}
@@ -55,19 +64,19 @@ export default function LoginScreen({navigation , loginHandler,googleSignIn}) {
             }
             title="Google"
           />
-          <Button
-            titleStyle={socialTitle}
-            buttonStyle={[fbButton, socialButton]}
-            icon={
-              <Icon
-                name="facebook-f"
-                type="font-awesome"
-                size={15}
-                color="white"
-              />
-            }
-            title="Facebook"
-          />
+            <Button
+              titleStyle={socialTitle}
+              buttonStyle={[fbButton, socialButton]}
+              icon={
+                <Icon
+                  name="facebook-f"
+                  type="font-awesome"
+                  size={15}
+                  color="white"
+                />
+              }
+              title="Facebook"
+            /> */}
         </View>
         <View style={form}>
           <Formik
@@ -143,7 +152,7 @@ export default function LoginScreen({navigation , loginHandler,googleSignIn}) {
         </View>
         <View style={registerArea}>
           <Text>
-            Dont have any account?
+            Doesn't have any account?
             <Link style={regSignLink} to="/Register">
               {' '}
               Register.
@@ -163,14 +172,16 @@ const styles = StyleSheet.create({
     paddingVertical:'20%',
   },
   form: {
-    flex: 0.7,
+    flex: 0.8,
     width: '100%',
-    marginVertical: '5%',
+    marginVertical: '1%',
+    paddingHorizontal:20,
   },
   buttons: {
     marginVertical: 12,
     borderRadius: 5,
     backgroundColor: '#359244',
+    width:'100%'
   },
   regSignLink: {
     textAlign:'center',
@@ -197,7 +208,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 5,
     alignSelf: 'stretch',
-    minWidth: '46%',
+    minWidth: '88%',
     textAlign: 'center',
   },
   socialTitle: {
